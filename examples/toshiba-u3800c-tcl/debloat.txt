@@ -1,0 +1,66 @@
+# ==========================================
+# 东芝 65U3800C Pro (TCL机芯 Android 8.0)
+# 生成时间: 2026-10-31
+# 原则: 只 disable-user 不卸载, 全部可逆
+# ==========================================
+
+# === 第一组: 广告/推送/遥测/诊断 (安全禁用, 必禁) ===
+com.tcl.bootadservice
+com.tcl.waterfall.resource
+com.tcl.c2dm.client
+com.tcl.bi
+com.tcl.usagestats
+com.tcl.vod
+com.tcl.selfbuy
+com.tcl.tshop
+com.tcl.tvhealthcheck
+com.tcl.networkdiagnosis
+cn.remotecare.tv.tcl
+com.ctvdevicemanger
+com.tcl.factory.view
+com.tcl.walleve
+com.tcl.xian.StartandroidService
+
+# === 第二组: 语音助手/麦克风 (不用语音就禁) ===
+com.tcl.recognize.service
+com.iflytek.xiri
+com.iflytek.xiri2.system
+com.iflytek.xiri.recorder.svc
+com.iflytek.xiri2.hal
+com.iflytek.mictest
+com.tcl.micmanager
+com.tcl.wholenetsearch
+com.svox.pico
+
+# === 第三组: 预装内容/应用 (看你用不用, 不用就禁) ===
+com.tcl.appmarket2
+com.tcl.browser
+com.tcl.gamecenter
+com.tcl.audioplayer
+com.tcl.videoplayer
+com.tcl.ui_mediaCenter
+com.tcl.fm
+com.tcl.screensaver
+com.tcl.soundbox
+com.tcl.common.weather
+com.tcl.common.viewer
+com.tcl.common.terminalmanagerplus
+com.tcl.shutdowndialog
+com.tcl.SmartTVHelp
+com.tcl.tvweishi
+com.tcl.usercenter
+com.tcl.m
+
+# === 第四组: 第三方预装流媒体 (不用就禁) ===
+com.xiaodianshi.tv.yst
+com.golive.cinema
+com.ixigua.android.tv.wasu
+com.tencent.qqmusictv
+com.audiocn.kalaok.tv
+com.ktcp.csvideo
+com.huan.edu.lexue.frontend
+
+# === 第五组: 系统更新/OTA (禁了不会自动升级固件) ===
+com.tcl.versionUpdateApp
+com.snm.upgrade
+com.tcl.packageinstaller.service.renew

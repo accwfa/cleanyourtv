@@ -1,0 +1,170 @@
+# ==========================================
+# 东芝 65U3800C Pro (TCL机芯 Android 8.0)完整精简清单 当前型号无法安装第三方桌面
+# 生成时间: 2026-10-31
+# 先备份，再禁用（自动记录到 ~/.cleanyourtv/）
+# tools/disable.sh examples/toshiba-u3800c-tcl/debloat.txt
+# 恢复命令（任何时候想还原）
+# tools/restore.sh examples/toshiba-u3800c-tcl/debloat.txt
+# adb 连接电视
+# adb connect 10.0.0.5
+# 列出所有包名
+# adb shell pm list 
+# 列出所有已禁用包名
+# adb shell pm list packages -d
+# 原则: 只 disable-user 不卸载, 全部可逆，enable命令可恢复
+# adb shell pm disable-user --user 0 com.tcl.bootadservice
+# adb shell pm enable com.tcl.bootadservice
+# 查看电视当前打开的APP包名
+# adb shell dumpsys window | grep mCurrentFocus
+
+# TCL 安装开关 查看当前开关状态（验证）
+adb shell getprop persist.tcl.installapk.enable
+adb shell getprop persist.TCL.debug.installapk
+# TCL 安装开关 打开
+adb shell setprop persist.tcl.installapk.enable 1
+adb shell setprop persist.TCL.debug.installapk 1
+
+# adb安装电视目录apk不可行（固件锁死） 厂商锁死(2024~2026) 可通过底层 Session 强行写入并提交安装（最推荐）
+# adb shell pm install-create -r -d -g 
+## Success: created install session [1801596831]
+# adb shell pm install-write 1801596831 base /sdcard/Download/xplore_306486.apk                                    13:11:24
+## Success: streamed 13921082 bytes
+# adb shell pm install-commit 1801596831                                                                           13:11:49
+## Success
+
+# 安装电脑目录apk
+# adb install -r -d -g /Users/y/Downloads/xplore_306486.apk
+# 上传文件到电视
+# adb push /Users/y/Downloads/xplore_306486.apk /sdcard/Download/xplore_306486.apk  
+# 已经禁用的包名
+adb shell pm list packages -d 
+
+# adb push /Users/y/cleanyourtv/examples/toshiba-u3800c-tcl/aerial-lite.apk /sdcard/Download/aerial-lite.apk 
+# adb shell pm install-create -r -d -g 
+## Success: created install session [1801596831]
+# adb shell pm install-write 1574028717 base /sdcard/Download/aerial-lite.apk 
+## Success: streamed 13921082 bytes
+# adb shell pm install-commit 1574028717  
+# Failure [INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES: disable install launcher app not signature by tcl]
+
+# ==========================================
+# === 桌面软件 ===
+# T惠购
+adb shell pm disable-user --user 0 com.tcl.tshop
+# 百影汇
+adb shell pm disable-user --user 0 com.tcl.selfbuy
+# 用户中心/账号登录
+adb shell pm disable-user --user 0 com.tcl.usercenter
+# 厅歌
+adb shell pm disable-user --user 0 com.tcl.fm
+# 天气插件
+adb shell pm disable-user --user 0 com.tcl.common.weather
+# T2娱乐健身
+adb shell pm disable-user --user 0 com.tcl.gamecenter
+# 天籁K歌
+adb shell pm disable-user --user 0 com.audiocn.kalaok.tv
+# 同步影院
+adb shell pm disable-user --user 0 com.golive.cinema
+# 乐学教育
+adb shell pm disable-user --user 0 com.huan.edu.lexue.frontend
+# QQ音乐TV版
+adb shell pm disable-user --user 0 com.tencent.qqmusictv
+
+# === 第三方 ===
+# com.ktcp.csvideo 腾讯云视听极光
+# com.xiaodianshi.tv.yst 小电视
+
+
+# === 第一组: 广告/推送/遥测/诊断 (安全禁用) ===
+# 开机广告服务
+adb shell pm disable-user --user 0 com.tcl.bootadservice
+# 主页瀑布流推荐内容
+adb shell pm disable-user --user 0 com.tcl.waterfall.resource
+# 推送消息服务
+adb shell pm disable-user --user 0 com.tcl.c2dm.client
+# 用户行为埋点统计
+adb shell pm disable-user --user 0 com.tcl.bi
+# 使用时长统计上报
+adb shell pm disable-user --user 0 com.tcl.usagestats
+# 视频点播推荐/内容流
+adb shell pm disable-user --user 0 com.tcl.vod
+# 电视健康检测/诊断
+adb shell pm disable-user --user 0 com.tcl.tvhealthcheck
+# 网络诊断工具
+adb shell pm disable-user --user 0 com.tcl.networkdiagnosis
+# 远程协助/售后诊断
+adb shell pm disable-user --user 0 cn.remotecare.tv.tcl
+# 设备管理/远程管控
+adb shell pm disable-user --user 0 com.ctvdevicemanger
+# 工厂模式视图
+adb shell pm disable-user --user 0 com.tcl.factory.view
+# 数据采集/遥测
+adb shell pm disable-user --user 0 com.tcl.walleve
+# 开机自启推送服务
+adb shell pm disable-user --user 0 com.tcl.xian.StartandroidService
+
+# === 第二组: 系统更新/OTA (禁了不会自动升级固件) ===
+# 系统版本更新App
+adb shell pm disable-user --user 0 com.tcl.versionUpdateApp
+# 固件升级服务
+adb shell pm disable-user --user 0 com.snm.upgrade
+# 安装服务自动更新
+adb shell pm disable-user --user 0 com.tcl.packageinstaller.service.renew
+
+# === 第三组: 语音助手/麦克风 (不用语音遥控就全禁) ===
+# TCL语音识别服务
+adb shell pm disable-user --user 0 com.tcl.recognize.service
+# 讯飞语音助手主程序
+adb shell pm disable-user --user 0 com.iflytek.xiri
+# 讯飞语音系统服务
+adb shell pm disable-user --user 0 com.iflytek.xiri2.system
+# 讯飞语音录音服务
+adb shell pm disable-user --user 0 com.iflytek.xiri.recorder.svc
+# 讯飞语音硬件抽象层
+adb shell pm disable-user --user 0 com.iflytek.xiri2.hal
+# 麦克风测试工具
+adb shell pm disable-user --user 0 com.iflytek.mictest
+# 麦克风管理
+adb shell pm disable-user --user 0 com.tcl.micmanager
+# 全网搜索语音入口
+adb shell pm disable-user --user 0 com.tcl.wholenetsearch
+# TTS语音合成引擎
+adb shell pm disable-user --user 0 com.svox.pico
+
+# === 第四组: 预装App/工具类 (安全禁用) ===
+# TCL自带浏览器com.tcl.browser
+# 系统音乐播放器com.tcl.audioplayer
+# 屏保/屏幕保护com.tcl.screensaver
+# 音箱模式/音响模式com.tcl.soundbox
+# 图片查看器com.tcl.common.viewer
+# 帮助文档/使用指南com.tcl.SmartTVHelp
+# 电视卫士/安全清理 com.tcl.tvweishi
+
+
+
+
+
+
+
+
+# === ⚠️ 看你用不用再决定, 默认不列入禁用 ===
+# com.tcl.appmarket2           # TCL应用商店 (有当贝就禁)
+# com.tcl.videoplayer          # 系统视频播放器 (建议保留)
+# com.tcl.ui_mediaCenter        # 媒体中心/文件管理 (不用U盘就禁)
+# com.tcl.shutdowndialog       # 关机弹窗对话框 (建议保留)
+# com.tcl.common.terminalmanagerplus  # 终端管理器 (不确定功能)
+# com.tcl.m                    # 未知包 (包名太短, 别乱动)
+
+# === ⛔ 绝对不能碰 (碰了变砖/断WiFi/切不了HDMI) ===
+# com.tcl.tv                   # 电视主服务/输入源核心
+# com.tcl.sourcemananger        # 信号源切换管理
+# com.tcl.initsetup            # 开机向导/网络配置
+# com.tcl.autopair             # 遥控器蓝牙自动配对
+# com.tcl.bt.phone             # 蓝牙服务
+# com.tcl.settings             # 系统设置应用
+# com.tcl.systemvolume          # 系统音量控制
+# com.tcl.common.shortcutmenu  # 快捷菜单/主页键
+# com.tcl.cyberui              # 当前桌面Launcher (换完新桌面再禁)
+# com.android.location.fused   # 定位服务 (停了开机循环)
+# com.android.providers.settings  # 设置数据存储
+# com.android.bluetooth         # 安卓蓝牙栈
